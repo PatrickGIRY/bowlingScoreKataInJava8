@@ -12,7 +12,7 @@ class BowlingScoreTest {
 
     @Test
     void a_gutter_game_has_a_score_of_0() {
-        IntStream.range(0, 20).forEach(index -> game.roll(0));
+        rollMany(20, 0);
 
         int score = game.score();
 
@@ -21,12 +21,15 @@ class BowlingScoreTest {
 
     @Test
     void all_rolls_with_one_knock_down_pin_has_a_score_of_20() {
-        IntStream.range(0, 20).forEach(index -> game.roll(1));
+        rollMany(20, 1);
 
         int score = game.score();
 
         assertThat(score).isEqualTo(20);
     }
 
+    private void rollMany(int times, int knockDownPins) {
+        IntStream.range(0, times).forEach(index -> game.roll(knockDownPins));
+    }
 
 }
