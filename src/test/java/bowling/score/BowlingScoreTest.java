@@ -28,6 +28,18 @@ class BowlingScoreTest {
         assertThat(score).isEqualTo(20);
     }
 
+    @Test
+    void one_spare_followed_by_a_roll_with_3_knock_down_pins_has_score_of_16() {
+        game.roll(5);
+        game.roll(5);
+        game.roll(3);
+        rollMany(17, 0);
+
+        int score = game.score();
+
+        assertThat(score).isEqualTo(16);
+    }
+
     private void rollMany(int times, int knockDownPins) {
         IntStream.range(0, times).forEach(index -> game.roll(knockDownPins));
     }
