@@ -19,4 +19,14 @@ class BowlingScoreTest {
         assertThat(score).isEqualTo(0);
     }
 
+    @Test
+    void all_rolls_with_one_knock_down_pin_has_a_score_of_20() {
+        IntStream.range(0, 20).forEach(index -> game.roll(1));
+
+        int score = game.score();
+
+        assertThat(score).isEqualTo(20);
+    }
+
+
 }
