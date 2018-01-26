@@ -44,9 +44,20 @@ class BowlingScoreTest {
         rollStrike();
         game.roll(3);
         game.roll(4);
-        rollMany(17, 0);
+        rollMany(16, 0);
 
         assertThat(game.score()).isEqualTo(24);
+    }
+
+    @Test
+    void two_strikes_followed_by_two_rolls_with_3_and_4_knock_down_pins_has_score_of_47() {
+        rollStrike();
+        rollStrike();
+        game.roll(3);
+        game.roll(4);
+        rollMany(14, 0);
+
+        assertThat(game.score()).isEqualTo(47);
     }
 
     private void rollStrike() {

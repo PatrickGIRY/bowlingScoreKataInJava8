@@ -8,9 +8,6 @@ public class Game {
 
     public void roll(int knockDownPins) {
         rolls.append(knockDownPins);
-        if (isStrike(knockDownPins) && rolls.notLastFrame()) {
-            rolls.append(0);
-        }
     }
 
     public int score() {
@@ -25,13 +22,15 @@ public class Game {
     }
 
     private int bonus(int scoreRoll, int rollIndex) {
-        int next = score(rolls.next(rollIndex + 2), rollIndex + 2);
+        if (rolls.isLastFrame(rollIndex)) return 0;
         if (isStrike(scoreRoll)) {
-            int nextOne = rolls.next(rollIndex + 3);
-            return next + score(nextOne, rollIndex + 3) - spareDiff(nextOne, rollIndex + 4);
+            int nextOne = rolls.next(rollIndex + 1);
+            return score(rolls.next(rollIndex), rollIndex+1)
+                    + score(nextOne, rollIndex + 2)
+                    - spareDiff(nextOne, rollIndex + 3);
         }
         if (isSpare(scoreRoll, rollIndex)) {
-            return next;
+            return score(rolls.next(rollIndex + 1), rollIndex+2);
         } else {
             return 0;
         }
@@ -67,11 +66,21 @@ public class Game {
         }
 
         int next(int rollIndex) {
-            return rollIndex < (rolls.length - 1) ? rolls[rollIndex] : 0;
+            return rollIndex < (rolls.length - 1) ? rolls[rollIndex + 1] : 0;
+        }
+
+        boolean isStrike(int scoreRoll) {
+            return rolls[scoreRoll] == 10;
         }
 
         boolean notLastFrame() {
-            return nextRollIndex < NORMAL_FRAME;
+            return !isLastFrame(nextRollIndex);
+        }
+
+        boolean isLastFrame(int rollIndex) {
+            int actualIndex = IntStream.range(0, rollIndex).
+                    reduce(0, (cpt, i) -> cpt + ((isStrike(i)) ? 2 : 1));
+            return NORMAL_FRAME <= actualIndex;
         }
     }
 }
