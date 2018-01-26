@@ -13,7 +13,9 @@ public class Game {
     public int score() {
         return IntStream.range(0, 20).reduce(0, (score, rollIndex) -> {
             int scoreRoll = rolls.get(rollIndex);
-            return score + score(scoreRoll, rollIndex) - spareDiff(scoreRoll, rollIndex) + bonus(scoreRoll, rollIndex);
+            return score + score(scoreRoll, rollIndex)
+                    - spareDiff(scoreRoll, rollIndex)
+                    + bonus(scoreRoll, rollIndex);
         });
     }
 

@@ -60,6 +60,13 @@ class BowlingScoreTest {
         assertThat(game.score()).isEqualTo(47);
     }
 
+    @Test
+    void a_perfect_game_has_score_of_300() {
+        rollMany(12, 10);
+
+        assertThat(game.score()).isEqualTo(300);
+    }
+
     private void rollStrike() {
         game.roll(10);
     }
